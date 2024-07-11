@@ -4,7 +4,7 @@
 void prims(int n, int cost[50][50], int source)
 {
     int i, j, k, u, v, min, s[50], d[50], N[50], t[50][3], sum;
-    for (i = 1; i < n; i++)
+    for (i = 1; i <= n; i++)
     {
         s[i] = 0;
         d[i] = cost[source][i];
@@ -19,7 +19,7 @@ void prims(int n, int cost[50][50], int source)
         u = 0;
         for (j = 1; j <= n; j++)
         {
-            if (s[j] == 0 && d[j] < min)
+            if (s[j] == 0 && d[j] <= min)
             {
                 min = d[j];
                 u = j;
@@ -46,7 +46,7 @@ void prims(int n, int cost[50][50], int source)
     else
     {
         printf("spanning tree is\n");
-        for (i = 1; i <= n - 1; i++)
+        for (i = 1; i < n; i++)
         {
             printf("%d->%d\n", t[i][1], t[i][2]);
         }

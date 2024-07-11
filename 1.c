@@ -1,13 +1,11 @@
 #include <stdio.h>
-#define INF 999
-void djikstra(int n, int cost[50][50], int s[50], int d[50], int p[50], int source, int dest)
+int dijsktras(int n, int cost[][20], int source, int dest, int s[], int d[], int p[])
 {
-    int i, j, u, v, min;
-
+    int v, u, i, j, min;
     s[source] = 1;
     for (i = 1; i < n; i++)
     {
-        min = INF;
+        min = 999;
         u = 0;
         for (j = 1; j <= n; j++)
         {
@@ -18,6 +16,7 @@ void djikstra(int n, int cost[50][50], int s[50], int d[50], int p[50], int sour
             }
         }
         s[u] = 1;
+
         for (v = 1; v <= n; v++)
         {
             if (s[v] == 0 && d[u] + cost[u][v] < d[v])
@@ -27,32 +26,31 @@ void djikstra(int n, int cost[50][50], int s[50], int d[50], int p[50], int sour
             }
         }
     }
+    return 0;
 }
-void print_path(int source, int dest, int n, int d[50], int p[50])
+int printpath(int source, int dest, int d[], int p[])
 {
     int i;
-    if (d[dest] >= INF)
+    if (d[dest] == 999)
     {
-        printf("no path exists\n");
+        printf("no path to print");
+        return 0;
     }
     i = dest;
     while (i != source)
     {
-        printf("%d<--", i);
+        printf("%d <-", i);
         i = p[i];
     }
-    printf(" %d is = %d", source, d[dest]);
-    printf("\n");
-    // printf("cost is %d\n", d[dest]);
+    printf(" %d is = %d\n", source, d[dest]);
+    return 0;
 }
-void main()
+int main()
 {
-    int i, j, n, s[50], d[50], p[50], cost[50][50], source, dest;
-    printf("enter number of nodes: ");
+    int n, i, j, cost[20][20], source, dest, s[20], d[20], p[20], min;
+    printf("enter the number of noded in the graph : ");
     scanf("%d", &n);
-    printf("enter the source node: ");
-    scanf("%d", &source);
-    printf("enter the cost matrix\n");
+    printf("enter the cost matrix of the graph : \n");
     for (i = 1; i <= n; i++)
     {
         for (j = 1; j <= n; j++)
@@ -60,18 +58,23 @@ void main()
             scanf("%d", &cost[i][j]);
         }
     }
+    printf("enter the source to the given graph : ");
+    scanf("%d", &source);
+
     for (i = 1; i <= n; i++)
     {
         s[i] = 0;
-        d[i] = cost[1][i];
+        d[i] = cost[source][i];
         p[i] = source;
     }
-    djikstra(n, cost, s, d, p, source, dest);
+    dijsktras(n, cost, source, dest, s, d, p);
+    printf("the shortest path is ");
     for (dest = 1; dest <= n; dest++)
     {
         if (dest != source)
         {
-            print_path(source, dest, n, d, p);
+            printpath(source, dest, d, p);
         }
     }
+    return 0;
 }
