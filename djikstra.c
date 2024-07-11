@@ -1,6 +1,6 @@
 #include <stdio.h>
 #define INF 999
-void djikstra(int n, int cost[50][50], int s[50], int d[50], int p[50], int source)
+void djikstra(int n, int cost[50][50], int s[50], int d[50], int p[50], int source, int dest)
 {
     int i, j, u, v, min;
 
@@ -28,27 +28,26 @@ void djikstra(int n, int cost[50][50], int s[50], int d[50], int p[50], int sour
         }
     }
 }
-void print_path(int source, int n, int d[50], int p[50])
+void print_path(int source, int dest, int n, int d[50], int p[50])
 {
-    int i, j;
-    for (i = 1; i <= n; i++)
+    int i;
+    if (d[dest] == INF)
     {
-        if (i != source)
-        {
-            printf("Shortest path from %d to %d is %d with path: ", source, i, d[i]);
-            j = i;
-            while (j != source)
-            {
-                printf("%d <- ", j);
-                j = p[j];
-            }
-            printf("%d\n", source);
-        }
+        printf("no path exists\n");
     }
+    i = dest;
+    while (i != source)
+    {
+        printf("%d<--", i);
+        i = p[i];
+    }
+    printf("%d", source);
+    printf("\n");
+    printf("cost is %d\n", d[dest]);
 }
 void main()
 {
-    int i, j, n, s[50], d[50], p[50], cost[50][50], source;
+    int i, j, n, s[50], d[50], p[50], cost[50][50], source, dest;
     printf("enter number of nodes: ");
     scanf("%d", &n);
     printf("enter the source node: ");
@@ -67,6 +66,9 @@ void main()
         d[i] = cost[1][i];
         p[i] = source;
     }
-    djikstra(n, cost, s, d, p, source);
-    print_path(source, n, d, p);
+    djikstra(n, cost, s, d, p, source, dest);
+    for (dest = 1; dest <= n; dest++)
+    {
+        print_path(source, dest, n, d, p);
+    }
 }
